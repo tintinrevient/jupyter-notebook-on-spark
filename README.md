@@ -1,1 +1,1 @@
-# jupyter-notebook-on-spark
+# Jupyter Notebook on Spark
