@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: spark
+  name: my-notebook-deployment
+  labels:
+    app: my-notebook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-notebook
+  template:
+    metadata:
+      labels:
+        app: my-notebook
+    spec:
+      serviceAccountName: spark
+      containers:
+      - name: my-notebook
+        image: jupyter/pyspark-notebook:python-3.9
+        ports:
+          - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: spark
+  name: my-notebook-service
+spec:
+  selector:
+    app: my-notebook
+  ports:
+    - protocol: TCP
+      port: 29413
+  clusterIP: None
